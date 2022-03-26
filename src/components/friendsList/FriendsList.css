@@ -1,0 +1,73 @@
+.friendWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.friendWrapper ul {
+  width: 340px;
+  margin: 3px;
+  padding: 10px;
+}
+.friendsSector {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding-top: 30px;
+  flex-wrap: wrap;
+}
+.friendslist {
+  border: solid 1px green;
+  padding: 12px 10px;
+  list-style-type: none;
+  background-color: rgb(233, 233, 233);
+}
+.friendslist button {
+  height: 30px;
+  border-radius: 4px;
+  width: 70px;
+}
+.username {
+  font-weight: bold;
+  color: red;
+}
+.change {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  height: 35px;
+}
+
+.change input {
+  background-color: rgb(250, 250, 250);
+  border: none;
+  width: 214px;
+  height: 26px;
+  padding-left: 8px;
+  border-radius: 4px;
+  border: solid 1px hotpink;
+}
+.hate {
+  padding-left: 8px;
+  font-weight: bolder;
+  color: rgb(83, 83, 83);
+}
+.destroy {
+  background-color: black;
+  color: rgb(255, 88, 88);
+  font-weight: bold;
+  border: solid 1px red;
+}
+.update {
+  background-color: rgb(253, 243, 255);
+  color: hotpink;
+  font-weight: bold;
+  border: solid 1px hotpink;
+}
+@media (min-width: 1200px) {
+  .friendWrapper {
+    width: 1200px;
+  }
+}
