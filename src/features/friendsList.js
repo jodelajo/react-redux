@@ -88,7 +88,7 @@ export const updateFriend =
         }
       );
       dispatch(friendUpdated({ username: newFriendName, id: friend.id }));
-      setNewFriendName("");
+      // setNewFriendName("");
     } catch (error) {
       dispatch(friendsFetchedFailed(error.message));
     }

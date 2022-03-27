@@ -19,7 +19,7 @@
   flex-wrap: wrap;
 }
 .friendslist {
-  border: solid 1px green;
+  border: solid 1px hotpink;
   padding: 12px 10px;
   list-style-type: none;
   background-color: rgb(233, 233, 233);
@@ -72,9 +72,25 @@
   margin-top: 20px;
   width: 200px;
   flex-direction: column;
+  border: solid 1px hotpink;
+  padding: 0 30px 30px 30px;
+  background-color: rgb(255, 218, 224);
 }
 .add-friend input {
   margin: 4px 0;
+  background-color: rgb(250, 250, 250);
+  border: none;
+  /* width: 214px; */
+  height: 26px;
+  padding-left: 8px;
+  border-radius: 4px;
+  border: solid 1px hotpink;
+}
+.add-friend button {
+  height: 30px;
+  border-radius: 4px;
+  background-color: red;
+  color: rgb(255, 218, 224);
 }
 @media (min-width: 1200px) {
   .friendWrapper {
