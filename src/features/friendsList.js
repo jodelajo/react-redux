@@ -5,7 +5,6 @@ const initialStateValue = {
   status: "idle",
   error: null,
   friends: [],
-  selectedFriend: {},
 };
 
 export const friendsListSlice = createSlice({
@@ -23,13 +22,8 @@ export const friendsListSlice = createSlice({
     friendsFetchedFailed: (state, action) => {
       state.value.status = "failed";
       state.value.error = action.payload;
-      //   console.log("hanlde action here later");
-    },
-    selectFriend: (state, action) => {
-      state.value.selectedFriend = action.payload;
     },
     friendDeleted: (state, action) => {
-      // console.log("deleting my friend");
       state.value.status = "success";
       state.value.friends = state.value.friends.filter(
         (friend) => action.payload !== friend.id
@@ -37,14 +31,17 @@ export const friendsListSlice = createSlice({
     },
     friendUpdated: (state, action) => {
       console.log(action.payload);
-
+      state.value.status = "success";
       state.value.friends.map(
         (friend) =>
           friend.id === action.payload.id &&
           (friend.username = action.payload.username)
       );
     },
-    friendAdded: (state, action) => {},
+    friendAdded: (state, action) => {
+      state.value.status = "success";
+      state.value.friends.push(action.payload);
+    },
   },
 });
 
@@ -52,15 +49,12 @@ export const {
   friendsLoading,
   friendsFetched,
   friendsFetchedFailed,
-  selectFriend,
   friendDeleted,
   friendUpdated,
+  friendAdded,
 } = friendsListSlice.actions;
 
 export const fetchFriends = () => async (dispatch) => {
-  // const friendId = getState();
-  // console.log("friendid", friendId);
-
   dispatch(friendsLoading());
   try {
     const response = await axios.get(
@@ -79,7 +73,38 @@ export const deleteFriend = (id) => async (dispatch) => {
     await axios.delete(`https://jsonplaceholder.typicode.com/users/${id}`);
     console.log("in axios delete");
     dispatch(friendDeleted(id));
-    // dispatch(friendsFetched(response.data));
+  } catch (error) {
+    dispatch(friendsFetchedFailed(error.message));
+  }
+};
+export const updateFriend =
+  (friend, newFriendName, setNewFriendName) => async (dispatch) => {
+    dispatch(friendsLoading());
+    try {
+      await axios.patch(
+        `https://jsonplaceholder.typicode.com/users/${friend.id}`,
+        {
+          body: { username: newFriendName },
+        }
+      );
+      dispatch(friendUpdated({ username: newFriendName, id: friend.id }));
+      setNewFriendName("");
+    } catch (error) {
+      dispatch(friendsFetchedFailed(error.message));
+    }
+  };
+
+export const addFriend = (newFriend, setNewFriend) => async (dispatch) => {
+  dispatch(friendsLoading());
+  try {
+    await axios.post(`https://jsonplaceholder.typicode.com/users/`, {
+      body: newFriend,
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    });
+    dispatch(friendAdded(newFriend));
+    setNewFriend({});
   } catch (error) {
     dispatch(friendsFetchedFailed(error.message));
   }

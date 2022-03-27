@@ -1,15 +1,11 @@
 import React, { useEffect, useState } from "react";
-import axios from "axios";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import {
   fetchFriends,
-  selectFriend,
-  friendsLoading,
-  friendsFetched,
-  friendsFetchedFailed,
-  friendUpdated,
+  updateFriend,
   deleteFriend,
+  addFriend,
 } from "../../features/friendsList";
 import "./FriendsList.css";
 
@@ -18,35 +14,25 @@ function FriendsList() {
   const { status, error, friends } = useSelector(
     (state) => state.friendsList.value
   );
-  const [newUserName, setNewUserName] = useState("");
-  // console.log("friendslist", friends);
-  console.log("new username", newUserName);
+  const [newFriendName, setNewFriendName] = useState("");
+  const [newFriend, setNewFriend] = useState({
+    id: 0,
+    name: "",
+    username: "",
+  });
 
-  // const onChangeHandler = (e) => {
-  //   setNewUserName(e.target.value);
-  // };
+  const onChangeHandlerName = (e) => {
+    e.preventDefault();
+    setNewFriend({
+      // ...newFriend,
+      name: e.target.value,
+      id: friends.length + 1,
+    });
+  };
 
-  const updateFriend = (friend) => async (dispatch) => {
-    console.log("update username", friend.username);
-    console.log("update id", friend.id);
-
-    dispatch(friendsLoading());
-    // dispatch(selectFriend());
-    try {
-      await axios.patch(
-        `https://jsonplaceholder.typicode.com/users/${friend.id}`,
-        {
-          // method: "PATCH",
-          body: { username: newUserName },
-        }
-      );
-      dispatch(friendUpdated({ username: newUserName, id: friend.id }));
-      setNewUserName("");
-      console.log("hoi");
-      // dispatch(friendsFetched(response.data));
-    } catch (error) {
-      dispatch(friendsFetchedFailed(error.message));
-    }
+  const onChangeHandlerUsername = (e) => {
+    e.preventDefault();
+    setNewFriend({ ...newFriend, username: e.target.value });
   };
 
   useEffect(() => {
@@ -59,26 +45,45 @@ function FriendsList() {
         <h1>My best friends</h1>
         FriendsList: {friends.length}{" "}
       </div>
+      <div className="add-friend">
+        <h3>Add new friend </h3>
+        <input
+          type="text"
+          value={newFriend.name || ""}
+          placeholder="Name..."
+          onChange={onChangeHandlerName}
+        />
+        <input
+          type="text"
+          placeholder="Username..."
+          value={newFriend.username || ""}
+          onChange={onChangeHandlerUsername}
+        />
+        <button onClick={() => dispatch(addFriend(newFriend, setNewFriend))}>
+          Add your friend
+        </button>
+      </div>
+
       <div className="friendsSector">
         {friends?.map((friend) => {
           return (
-            <ul key={friend.id} className="">
-              <li
-                className="friendslist"
-                onClick={() => dispatch(selectFriend(friend))}
-              >
-                <h3>{friend.name}</h3>
-                <p className="username">{friend.username}</p>
+            <ul key={friend?.id} className="">
+              <li className="friendslist">
+                <h3>{friend?.name}</h3>
+                <p className="username">{friend?.username}</p>
                 <div className="change">
                   <input
                     type="text"
-                    value={newUserName}
                     placeholder={`Change username`}
-                    onChange={(e) => setNewUserName(e.target.value)}
+                    onChange={(e) => setNewFriendName(e.target.value)}
                   />
                   <button
                     className="update"
-                    onClick={() => dispatch(updateFriend(friend))}
+                    onClick={() =>
+                      dispatch(
+                        updateFriend(friend, newFriendName, setNewFriendName)
+                      )
+                    }
                   >
                     Update
                   </button>
