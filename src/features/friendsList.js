@@ -1,5 +1,4 @@
-import { createSlice, current } from "@reduxjs/toolkit";
-import { useSelector } from "react-redux";
+import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialStateValue = {
@@ -30,39 +29,22 @@ export const friendsListSlice = createSlice({
       state.value.selectedFriend = action.payload;
     },
     friendDeleted: (state, action) => {
-      console.log("deleting my friend");
+      // console.log("deleting my friend");
       state.value.status = "success";
       state.value.friends = state.value.friends.filter(
         (friend) => action.payload !== friend.id
       );
     },
-    // friendsUpdated: (state, action) => {
-    //   const currentSelectedFriendState = current(
-    //     state.value.selectedFriend.friend
-    //   );
-    //   const currentUsername = current(
-    //     state.value.selectedFriend.friend.username
-    //   );
-    //   console.log("hoiiii", currentSelectedFriendState);
-    //   console.log("currentUsername", currentSelectedFriendState.username);
-    //   const { username, id } = action.payload;
-    //   // const existingFriend = state.find(
-    //   //   (selectedFriend) => selectedFriend.id === id
-    //   // );
-    //   // if (existingFriend) {
-    //   //   console.log("existing friend", existingFriend);
-    //   // }
-    //   // console.log("existing friend", existingFriend);
-    //   console.log("username", username);
-    //   console.log("id", id);
-    //   if (username) {
-    //     return {
-    //       currentSelectedFriendState: {
-    //         username: username,
-    //       },
-    //     };
-    //   }
-    // },
+    friendUpdated: (state, action) => {
+      console.log(action.payload);
+
+      state.value.friends.map(
+        (friend) =>
+          friend.id === action.payload.id &&
+          (friend.username = action.payload.username)
+      );
+    },
+    friendAdded: (state, action) => {},
   },
 });
 
@@ -72,7 +54,7 @@ export const {
   friendsFetchedFailed,
   selectFriend,
   friendDeleted,
-  // friendsUpdated,
+  friendUpdated,
 } = friendsListSlice.actions;
 
 export const fetchFriends = () => async (dispatch) => {

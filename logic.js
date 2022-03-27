@@ -70,21 +70,64 @@ const state = {
           bs: "e-enable strategic applications",
         },
       },
+      {
+        id: 4,
+        name: "Patricia Lebsack",
+        username: "Karianne",
+        email: "Julianne.OConner@kory.org",
+        address: {
+          street: "Hoeger Mall",
+          suite: "Apt. 692",
+          city: "South Elvis",
+          zipcode: "53919-4257",
+          geo: {
+            lat: "29.4572",
+            lng: "-164.2990",
+          },
+        },
+        phone: "493-170-9623 x156",
+        website: "kale.biz",
+        company: {
+          name: "Robel-Corkery",
+          catchPhrase: "Multi-tiered zero tolerance productivity",
+          bs: "transition cutting-edge web services",
+        },
+      },
     ],
   },
 };
 const action = { type: "delete", payload: 3 };
-console.log(state.value.friends);
-// state.value.friends = state.value.friends.filter((friend) => {
-//   console.log(friend.id, action.payload, action.payload === friend.id);
-//   if (action.payload !== friend.id) {
-//     return true;
-//   } else {
-//     return false;
-//   }
-// });
+// console.log(state.value.friends);
+state.value.friends = state.value.friends.filter((friend) => {
+  //   console.log(friend.id, action.payload, action.payload === friend.id);
+  if (action.payload !== friend.id) {
+    return true;
+  } else {
+    return false;
+  }
+});
 
 state.value.friends = state.value.friends.filter(
   (friend) => action.payload !== friend.id
 );
-console.log(state.value.friends);
+
+const updateAction = { type: "update", payload: { username: "hoi", id: 3 } };
+console.log("updateAction", updateAction.payload);
+// console.log(state.value.friends);
+// state.value.friends = state.value.friends.map((friend) => {
+//   console.log("friend?", friend.id);
+//   console.log("updateAction.payload", updateAction.payload);
+//   //   console.log(friend.id, updateAction.payload, updateAction.payload === friend);
+//   if (updateAction.payload === friend.id) {
+//     return friend;
+//   } else {
+//     return;
+//   }
+// });
+
+const update = state.value.friends.map((friend) => {
+  if (updateAction.payload.id === friend.id) {
+    friend.username = updateAction.payload.username;
+  }
+});
+console.log(update);

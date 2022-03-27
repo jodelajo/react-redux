@@ -8,48 +8,46 @@ import {
   friendsLoading,
   friendsFetched,
   friendsFetchedFailed,
-  friendsUpdated,
-  friendDeleted,
+  friendUpdated,
   deleteFriend,
 } from "../../features/friendsList";
 import "./FriendsList.css";
 
 function FriendsList() {
   const dispatch = useDispatch();
-  const { status, error, friends, selectedFriend } = useSelector(
+  const { status, error, friends } = useSelector(
     (state) => state.friendsList.value
   );
-  // const [selectedFriend, setSelecteFriend] = useState();
   const [newUserName, setNewUserName] = useState("");
   // console.log("friendslist", friends);
-  // console.log("new username", newUserName);
-  // console.log("selected friend", selectedFriend);
+  console.log("new username", newUserName);
 
-  // const updateFriends = async () => {
-  //   const myFriend = selectedFriend.friend;
-  //   console.log("!!!!myFriend", myFriend);
-  //   const friendId = selectedFriend.friend.id;
-  //   const patchUrl = `https://jsonplaceholder.typicode.com/users/${friendId}`;
-  //   console.log("patchurl", patchUrl);
-  //   dispatch(friendsLoading());
-  //   // dispatch(selectFriend());
-  //   try {
-  //     await axios.patch(
-  //       `https://jsonplaceholder.typicode.com/users/${friendId}`,
-  //       {
-  //         method: "PATCH",
-  //         body: { username: newUserName },
-  //         headers: {
-  //           "Content-type": "application/json; charset=UTF-8",
-  //         },
-  //       }
-  //     );
-  //     console.log("hoi");
-  //     // dispatch(friendsFetched(response.data));
-  //   } catch (error) {
-  //     dispatch(friendsFetchedFailed(error.message));
-  //   }
+  // const onChangeHandler = (e) => {
+  //   setNewUserName(e.target.value);
   // };
+
+  const updateFriend = (friend) => async (dispatch) => {
+    console.log("update username", friend.username);
+    console.log("update id", friend.id);
+
+    dispatch(friendsLoading());
+    // dispatch(selectFriend());
+    try {
+      await axios.patch(
+        `https://jsonplaceholder.typicode.com/users/${friend.id}`,
+        {
+          // method: "PATCH",
+          body: { username: newUserName },
+        }
+      );
+      dispatch(friendUpdated({ username: newUserName, id: friend.id }));
+      setNewUserName("");
+      console.log("hoi");
+      // dispatch(friendsFetched(response.data));
+    } catch (error) {
+      dispatch(friendsFetchedFailed(error.message));
+    }
+  };
 
   useEffect(() => {
     dispatch(fetchFriends());
@@ -74,10 +72,16 @@ function FriendsList() {
                 <div className="change">
                   <input
                     type="text"
+                    value={newUserName}
                     placeholder={`Change username`}
                     onChange={(e) => setNewUserName(e.target.value)}
                   />
-                  <button className="update">Update</button>
+                  <button
+                    className="update"
+                    onClick={() => dispatch(updateFriend(friend))}
+                  >
+                    Update
+                  </button>
                 </div>
                 <div className="change">
                   <p className="hate">NOT A FRIEND OF MINE 😡 </p>
