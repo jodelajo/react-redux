@@ -1,0 +1,133 @@
+const state = {
+  value: {
+    friends: [
+      {
+        id: 1,
+        name: "Leanne Graham",
+        username: "Bret",
+        email: "Sincere@april.biz",
+        address: {
+          street: "Kulas Light",
+          suite: "Apt. 556",
+          city: "Gwenborough",
+          zipcode: "92998-3874",
+          geo: {
+            lat: "-37.3159",
+            lng: "81.1496",
+          },
+        },
+        phone: "1-770-736-8031 x56442",
+        website: "hildegard.org",
+        company: {
+          name: "Romaguera-Crona",
+          catchPhrase: "Multi-layered client-server neural-net",
+          bs: "harness real-time e-markets",
+        },
+      },
+      {
+        id: 2,
+        name: "Ervin Howell",
+        username: "Antonette",
+        email: "Shanna@melissa.tv",
+        address: {
+          street: "Victor Plains",
+          suite: "Suite 879",
+          city: "Wisokyburgh",
+          zipcode: "90566-7771",
+          geo: {
+            lat: "-43.9509",
+            lng: "-34.4618",
+          },
+        },
+        phone: "010-692-6593 x09125",
+        website: "anastasia.net",
+        company: {
+          name: "Deckow-Crist",
+          catchPhrase: "Proactive didactic contingency",
+          bs: "synergize scalable supply-chains",
+        },
+      },
+      {
+        id: 3,
+        name: "Clementine Bauch",
+        username: "Samantha",
+        email: "Nathan@yesenia.net",
+        address: {
+          street: "Douglas Extension",
+          suite: "Suite 847",
+          city: "McKenziehaven",
+          zipcode: "59590-4157",
+          geo: {
+            lat: "-68.6102",
+            lng: "-47.0653",
+          },
+        },
+        phone: "1-463-123-4447",
+        website: "ramiro.info",
+        company: {
+          name: "Romaguera-Jacobson",
+          catchPhrase: "Face to face bifurcated interface",
+          bs: "e-enable strategic applications",
+        },
+      },
+      {
+        id: 4,
+        name: "Patricia Lebsack",
+        username: "Karianne",
+        email: "Julianne.OConner@kory.org",
+        address: {
+          street: "Hoeger Mall",
+          suite: "Apt. 692",
+          city: "South Elvis",
+          zipcode: "53919-4257",
+          geo: {
+            lat: "29.4572",
+            lng: "-164.2990",
+          },
+        },
+        phone: "493-170-9623 x156",
+        website: "kale.biz",
+        company: {
+          name: "Robel-Corkery",
+          catchPhrase: "Multi-tiered zero tolerance productivity",
+          bs: "transition cutting-edge web services",
+        },
+      },
+    ],
+  },
+};
+const action = { type: "delete", payload: 3 };
+// console.log(state.value.friends);
+state.value.friends = state.value.friends.filter((friend) => {
+  //   console.log(friend.id, action.payload, action.payload === friend.id);
+  if (action.payload !== friend.id) {
+    return true;
+  } else {
+    return false;
+  }
+});
+
+state.value.friends = state.value.friends.filter(
+  (friend) => action.payload !== friend.id
+);
+
+const updateAction = { type: "update", payload: { username: "hoi", id: 3 } };
+console.log("updateAction", updateAction.payload);
+// console.log(state.value.friends);
+// state.value.friends = state.value.friends.map((friend) => {
+//   console.log("friend?", friend.id);
+//   console.log("updateAction.payload", updateAction.payload);
+//   //   console.log(friend.id, updateAction.payload, updateAction.payload === friend);
+//   if (updateAction.payload === friend.id) {
+//     return friend;
+//   } else {
+//     return;
+//   }
+// });
+
+const update = state.value.friends.map((friend) => {
+  if (updateAction.payload.id === friend.id) {
+    friend.username = updateAction.payload.username;
+  }
+});
+console.log(update);
