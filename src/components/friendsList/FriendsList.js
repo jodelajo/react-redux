@@ -45,6 +45,7 @@ function FriendsList() {
         <h1>My best friends</h1>
         FriendsList: {friends.length}{" "}
       </div>
+      <div>{status === "failed" && <p>{error}</p>}</div>
       <div className="add-friend">
         <h3>Add new friend </h3>
         <input
@@ -59,7 +60,10 @@ function FriendsList() {
           value={newFriend.username || ""}
           onChange={onChangeHandlerUsername}
         />
-        <button onClick={() => dispatch(addFriend(newFriend, setNewFriend))}>
+        <button
+          className="update"
+          onClick={() => dispatch(addFriend(newFriend, setNewFriend))}
+        >
           Add your friend
         </button>
       </div>
@@ -104,7 +108,6 @@ function FriendsList() {
       </div>
 
       <div>{status === "loading" && <p>Loading ...</p>}</div>
-      <div>{status === "failed" && <p>{error}</p>}</div>
     </div>
   );
 }
